@@ -2,56 +2,26 @@ name: CI-CD-With-n8n
 
 on:
   workflow_dispatch:
-    inputs:
-      resumeUrl:
-        required: true
 
 jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Build
-        run: |
-          echo "🏗️ Building application..."
-          sleep 2
+        run: echo "🏗️ Building application..."
 
       - name: Test
-        run: |
-          echo "🧪 Running tests..."
-          sleep 2
+        run: echo "🧪 Running tests..."
 
       - name: Deploy
-        run: |
-          echo "🚀 Deploying to production..."
-          sleep 2
+        run: echo "🚀 Deploying..."
 
-      - name: Notify n8n (Success)
-        if: success()
+      - name: Notify n8n
+        if: always()
         run: |
           curl -X POST ${{ secrets.N8N_WEBHOOK_URL }} \
           -H "Content-Type: application/json" \
-          -d '{
-            "status": "success",
-            "repo": "${{ github.repository }}",
-            "commit": "${{ github.sha }}",
-            "actor": "${{ github.actor }}",
-            "env": "production"
-          }'
-
-      - name: Notify n8n (Failure)
-        if: failure()
-        run: |
-          curl -X POST ${{ secrets.N8N_WEBHOOK_URL }} \
-          -H "Content-Type: application/json" \
-          -d '{
-            "status": "failure",
-            "repo": "${{ github.repository }}",
-            "commit": "${{ github.sha }}",
-            "actor": "${{ github.actor }}",
-            "env": "production"
-          }'
-  
+          -d '{"status":"done"}'
