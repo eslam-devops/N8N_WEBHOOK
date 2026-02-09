@@ -34,7 +34,7 @@ jobs:
           -H "Content-Type: application/json" \
           -d '{
             "status": "success",
-            "repo": "eslam-devops/N8N_WEBHOO",
+            "repo": "${{ github.repository }}",
             "commit": "${{ github.sha }}",
             "actor": "${{ github.actor }}",
             "env": "production"
@@ -47,8 +47,7 @@ jobs:
           -H "Content-Type: application/json" \
           -d '{
             "status": "failure",
-            # "repo": "${{ github.repository }}",
-            "repo": "eslam-devops/N8N_WEBHOO",
+            "repo": "${{ github.repository }}",
             "commit": "${{ github.sha }}",
             "actor": "${{ github.actor }}",
             "env": "production"
